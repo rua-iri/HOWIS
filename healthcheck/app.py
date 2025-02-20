@@ -7,7 +7,7 @@ def check_site_status(site: str):
         requests.head(site)
 
 
-def dispatch(context, event):
+def dispatch(event, context):
     query_string: dict = json.loads(context.query_string_parameters)
 
     if not query_string:
