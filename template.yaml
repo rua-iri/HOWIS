@@ -11,6 +11,21 @@ Globals:
     Timeout: 3
 
 Resources:
+  TriggerHealthCheckFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: triggerhealthchecks/
+      Handler: app.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+      Events:
+        SNSTrigger:
+          Type: SNS
+          Properties:
+            Topic:
+              Ref: WhatsUpTopic
+
   HealthCheckFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -25,6 +40,9 @@ Resources:
           Properties:
             Method: get
             Path: /health
+
+  WhatsUpTopic:
+    Type: AWS::SNS::Topic
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
