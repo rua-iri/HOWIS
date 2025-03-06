@@ -7,6 +7,8 @@ def invoke_healthcheck_lambda(region_name: str, function_name: str):
 
     # TODO: use boto3 to call the different lambda functions in different regions
 
+    # TODO: send url in lambda's invoke payload
+
     lambda_client.invoke(FunctionName=function_name)
 
 
@@ -21,7 +23,7 @@ def dispatch(event, context):
     ]
 
     for region in regions:
-        function_name: str = "healthcheck-{region}".format("region")
+        function_name: str = "healthcheck-{region}".formatformat(region=region)
         invoke_healthcheck_lambda(
             region_name=region,
             function_name=function_name
