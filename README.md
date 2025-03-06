@@ -5,7 +5,7 @@ AWS SAM project to check a website's status from a number of global regions.
 
 ## Infrastructure Diagram
 
-![whats_up_check Diagram(2)](https://github.com/user-attachments/assets/d4e1ced2-df59-47db-8f4b-97e884ed0961)
+![whats_up_check Diagram(3)](https://github.com/user-attachments/assets/ee0b60ea-f8e3-43fe-9075-d078e13e65f5)
 
 
 ## Setup
