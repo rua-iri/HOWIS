@@ -8,6 +8,9 @@ import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+# TODO: initialise SNS and DynamoDB clients here
+
+
 
 def validate_url(url):
     validators.url(url)
