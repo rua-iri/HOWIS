@@ -1,18 +1,38 @@
 import json
 import boto3
+import validators
+
+
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+
+def validate_url(url):
+    validators.url(url)
 
 
 def invoke_healthcheck_lambda(region_name: str, function_name: str):
-    lambda_client = boto3.client('lambda', region_name=region_name)
+    # TODO: use boto3 to send an SNS message
+    # TODO: send url in the SNS 
 
-    # TODO: use boto3 to call the different lambda functions in different regions
-
-    # TODO: send url in lambda's invoke payload
-
-    lambda_client.invoke(FunctionName=function_name)
+    pass
 
 
 def dispatch(event, context):
+
+    query_string: dict = event.get("queryStringParameters")
+
+    if not query_string:
+        raise Exception("No query string provided")
+
+    site: str | None = query_string.get("site")
+
+    if not site:
+        raise Exception("No Website Provided")
+    
+    validate_url(url=site)
 
     regions = [
         "us-west-2",
@@ -31,5 +51,10 @@ def dispatch(event, context):
 
 
 def lambda_handler(event, context):
-
-    return {"statusCode": 200, "body": json.dumps("health check")}
+    try:
+        dispatch()
+        return {"statusCode": 200, "body": json.dumps("health check")}
+    
+    except Exception as e:
+        logger.info(e)
+        return {"statusCode": 500, "body": json.dumps("health check failed")}

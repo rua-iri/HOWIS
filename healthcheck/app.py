@@ -1,5 +1,6 @@
 import json
 import requests
+import validators
 
 import logging
 
@@ -49,6 +50,9 @@ def dispatch(event, context):
 def lambda_handler(event, context):
     try:
         return dispatch(event, context)
+    
+    except validators.ValidationError:
+        return {"statusCode": 500, "body": json.dumps({"message": "Invalid URL Format"})}
 
     except Exception as e:
         logger.info(e)
