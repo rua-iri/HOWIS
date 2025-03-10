@@ -2,6 +2,8 @@
 
 AWS SAM project to check a website's status from a number of global regions.
 
+Each health check lambda function will send a HEAD request to a given domain and store the results of these requests in a DynamoDB table. 
+
 
 ## Infrastructure Diagram
 
