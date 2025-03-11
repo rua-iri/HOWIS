@@ -16,7 +16,7 @@ Globals:
         SNS_TOPIC: !Ref WhatsUpTopic
         DYNAMO_TABLE: !Ref WhatsUpTable
     Handler: app.lambda_handler
-    
+    ReservedConcurrentExecutions: 2
 
 Resources:
   TriggerHealthCheckFunction:
@@ -26,6 +26,15 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref WhatsUpTable
+        - Version: "2012-10-17"
+          Statement:
+            - Action:
+                - "logs:CreateLogGroup"
+                - "logs:CreateLogStream"
+                - "logs:PutLogEvents"
+              Effect: Allow
+              Resource: "arn:aws:logs:*:*:*"
+
       Events:
         TriggerHealthCheck:
           Type: Api
@@ -40,6 +49,19 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref WhatsUpTable
+        - Version: "2012-10-17"
+          Statement:
+            - Action:
+                - "logs:CreateLogGroup"
+                - "logs:CreateLogStream"
+                - "logs:PutLogEvents"
+              Effect: Allow
+              Resource: "arn:aws:logs:*:*:*"
+
+            - Action:
+                - "SNS:Publish"
+              Effect: Allow
+              Resource: !Ref WhatsUpTopic
       Events:
         SNSTrigger:
           Type: SNS
@@ -64,14 +86,21 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref WhatsUpTable
+        - Version: "2012-10-17"
+          Statement:
+            - Action:
+                - "logs:CreateLogGroup"
+                - "logs:CreateLogStream"
+                - "logs:PutLogEvents"
+              Effect: Allow
+              Resource: "arn:aws:logs:*:*:*"
+
       Events:
         HealthStatus:
           Type: Api
           Properties:
             Method: get
             Path: /status
-
-
 
   WhatsUpTopic:
     Type: AWS::SNS::Topic

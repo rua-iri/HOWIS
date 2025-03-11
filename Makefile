@@ -5,10 +5,11 @@ hello:
 
 build:
 	@sam build > /dev/null
+	@echo "\n\nSAM Has built successfully\n\n"
+
 
 local:
 	@echo "Running SAM Locally"
 	$(MAKE) build
 
-	@echo "\n\nSAM Has built successfully\n\n"
 	sam local start-api
