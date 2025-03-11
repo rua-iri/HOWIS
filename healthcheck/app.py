@@ -59,4 +59,9 @@ def lambda_handler(event, context):
     except Exception as e:
         logger.error(e)
         logger.error(traceback.format_exc())
-        return {"statusCode": 500, "body": json.dumps({"error": "An error occurred"})}
+        return {
+            "statusCode": 500,
+            "body": json.dumps(
+                {"error": "An error occurred"}
+            )
+        }

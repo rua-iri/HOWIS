@@ -57,6 +57,17 @@ Resources:
   WhatsUpTopic:
     Type: AWS::SNS::Topic
 
+  WhatsUpTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: WhatsUpTable
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+
 Outputs:
   HealthCheckApi:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
