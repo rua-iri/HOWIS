@@ -44,6 +44,9 @@ def put_dynamo_item(site: str) -> str:
         },
         "success_count": {
             "N": "0"
+        },
+        "request_count": {
+            "N": "0"
         }
     }
 

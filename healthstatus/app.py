@@ -21,7 +21,11 @@ def convert_dynamo_dict(item):
     converted_items = {}
 
     for key, value in item.items():
-        converted_items[key] = list(value.values())[0]
+
+        if list(value.keys())[0] == "N":
+            converted_items[key] = int(list(value.values())[0])
+        else:
+            converted_items[key] = list(value.values())[0]
 
     return converted_items
 
@@ -33,10 +37,15 @@ def get_dynamo_record(req_id: str):
         }
     }
 
+    projection_expression = """site_url,
+        success_count,
+        fail_count,
+        request_count"""
+
     item: dict = dynamo_client.get_item(
         Key=item_key,
         TableName=DYNAMO_TABLE,
-        ProjectionExpression="site_url, success_count, fail_count"
+        ProjectionExpression=projection_expression
     ).get("Item")
 
     item = convert_dynamo_dict(item)

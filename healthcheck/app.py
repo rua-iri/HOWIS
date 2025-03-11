@@ -31,10 +31,16 @@ def update_dynamo_item(
         },
         ":fc": {
             "N": str(fail_count)
+        },
+        ":incre": {
+            "N": "1"
         }
     }
 
-    update_expression = "SET success_count = success_count + :sc, fail_count = fail_count + :fc"
+    update_expression = """SET success_count = success_count + :sc,
+    fail_count = fail_count + :fc,
+    request_count = request_count + :incre
+    """
 
     dynamo_client.update_item(
         TableName=DYNAMO_TABLE,
