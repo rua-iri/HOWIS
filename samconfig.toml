@@ -4,7 +4,7 @@ version = 0.1
 
 [default]
 [default.global.parameters]
-stack_name = "whats_up_check"
+stack_name = "whats-up-check"
 
 [default.build.parameters]
 cached = true

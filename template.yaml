@@ -43,6 +43,8 @@ Resources:
           Properties:
             Topic:
               Ref: WhatsUpTopic
+
+        # TODO: remove this event
         # In production we should not have a public
         # API endpoint for this function
         # It is only for testing purposes
