@@ -57,6 +57,9 @@ def dispatch(event, context):
     fail_count = health_check_item.get("fail_count").get("N")
     success_count = health_check_item.get("success_count").get("N")
 
+    logger.info(f"Success Count: {success_count}")
+    logger.info(f"Fail Count: {fail_count}")
+
     return {
         "statusCode": 500,
         "body": json.dumps(
