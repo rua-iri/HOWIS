@@ -36,7 +36,7 @@ def put_dynamo_item(site: str) -> str:
         "timestamp": {
             "S": timestamp
         },
-        "url": {
+        "site_url": {
             "S": site
         },
         "fail_count": {

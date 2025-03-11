@@ -13,6 +13,19 @@ dynamo_client = boto3.client("dynamodb")
 DYNAMO_TABLE = os.getenv("DYNAMO_TABLE")
 
 
+def convert_dynamo_dict(item):
+
+    if not item:
+        return item
+
+    converted_items = {}
+
+    for key, value in item.items():
+        converted_items[key] = list(value.values())[0]
+
+    return converted_items
+
+
 def get_dynamo_record(req_id: str):
     item_key = {
         "id": {
@@ -22,8 +35,11 @@ def get_dynamo_record(req_id: str):
 
     item: dict = dynamo_client.get_item(
         Key=item_key,
-        TableName=DYNAMO_TABLE
+        TableName=DYNAMO_TABLE,
+        ProjectionExpression="site_url, success_count, fail_count"
     ).get("Item")
+
+    item = convert_dynamo_dict(item)
 
     return item
 
@@ -54,14 +70,14 @@ def dispatch(event, context):
             )
         }
 
-    fail_count = health_check_item.get("fail_count").get("N")
-    success_count = health_check_item.get("success_count").get("N")
+    fail_count = health_check_item.get("fail_count")
+    success_count = health_check_item.get("success_count")
 
     logger.info(f"Success Count: {success_count}")
     logger.info(f"Fail Count: {fail_count}")
 
     return {
-        "statusCode": 500,
+        "statusCode": 200,
         "body": json.dumps(
             health_check_item
         )
