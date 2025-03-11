@@ -23,7 +23,7 @@ def get_dynamo_record(req_id: str):
     item: dict = dynamo_client.get_item(
         Key=item_key,
         TableName=DYNAMO_TABLE
-    )
+    ).get("Item")
 
     return item
 
@@ -47,15 +47,15 @@ def dispatch(event, context):
     logger.info(health_check_item)
 
     if not health_check_item:
-        {
+        return {
             "statusCode": 404,
             "body": json.dumps(
                 {"error": "No Records found"}
             )
         }
 
-    fail_count = health_check_item.get("Item").get("fail_count").get("N")
-    success_count = health_check_item.get("Item").get("success_count").get("N")
+    fail_count = health_check_item.get("fail_count").get("N")
+    success_count = health_check_item.get("success_count").get("N")
 
     return {
         "statusCode": 500,

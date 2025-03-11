@@ -1,5 +1,7 @@
 import json
+import os
 import traceback
+import boto3
 import requests
 from site_url import SiteURL
 
@@ -7,6 +9,39 @@ import logging
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+dynamo_client = boto3.client("dynamodb")
+DYNAMO_TABLE = os.getenv("DYNAMO_TABLE")
+
+
+def update_dynamo_item(
+        item_id: str,
+        success_count: int,
+        fail_count: int
+):
+
+    key = {
+        "id": {
+            "S": item_id
+        }
+    }
+    expression_values = {
+        ":sc": {
+            "N": str(success_count)
+        },
+        ":fc": {
+            "N": str(fail_count)
+        }
+    }
+
+    update_expression = "SET success_count = success_count + :sc, fail_count = fail_count + :fc"
+
+    dynamo_client.update_item(
+        TableName=DYNAMO_TABLE,
+        Key=key,
+        UpdateExpression=update_expression,
+        ExpressionAttributeValues=expression_values
+    )
 
 
 def check_site_status(site: SiteURL) -> tuple:
@@ -26,30 +61,29 @@ def check_site_status(site: SiteURL) -> tuple:
 
 def dispatch(event, context):
     logger.info(event)
-    logger.info(event.get("queryStringParameters"))
 
-    # TODO: take event from SNS not API gateway
+    message = event.get("Records")[0].get("Sns").get("Message")
+    message = json.loads(message)
 
-    query_string: dict = event.get("queryStringParameters")
+    site: str = message.get("site")
+    item_id = message.get("item_id")
 
-    if not query_string:
-        raise Exception("No query string provided")
-
-    site: str | None = query_string.get("site")
-
-    if not site:
-        raise Exception("No Website Provided")
+    if not site or not item_id:
+        raise Exception("No Website or Item ID Provided")
 
     site: SiteURL = SiteURL(site)
-    logger.info(f"Site: {site.get_https}")
+    logger.info(f"Site: {site.get_https()}")
     count_success, count_fail = check_site_status(site)
 
-    body = {
+    logger.info(f"Success Count: {count_success}")
+    logger.info(f"Fail Count: {count_fail}")
+
+    update_dynamo_item(item_id, count_success, count_fail)
+
+    return {"statusCode": 200, "body": json.dumps({
         "count_success": count_success,
         "count_fail": count_fail
-    }
-
-    return {"statusCode": 200, "body": json.dumps(body)}
+    })}
 
 
 def lambda_handler(event, context):

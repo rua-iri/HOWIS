@@ -58,23 +58,20 @@ def put_dynamo_item(site: str) -> str:
 
 
 def send_healthcheck_sns(site: str, item_id: str):
-    # TODO: use boto3 to send an SNS message
-    # TODO: send url in the SNS
 
     message_data = {
-        "site": site
+        "site": site,
+        "item_id": item_id
     }
 
     print(f"message_data: {message_data}")
     print(f"SNS Topic: {SNS_TOPIC}")
     print(f"Item ID: {item_id}")
 
-    # sns_client.publish(
-    #     TopicArn="",
-    #     Message=json.dumps(message_data)
-    # )
-
-    pass
+    sns_client.publish(
+        TopicArn=SNS_TOPIC,
+        Message=json.dumps(message_data)
+    )
 
 
 def dispatch(event, context):
@@ -99,11 +96,18 @@ def dispatch(event, context):
 
     send_healthcheck_sns(site, item_id)
 
+    return {
+        "statusCode": 200,
+        "body": json.dumps({
+            "status": "success",
+            "id": item_id
+        })
+    }
+
 
 def lambda_handler(event, context):
     try:
-        dispatch(event, context)
-        return {"statusCode": 200, "body": json.dumps("health check")}
+        return dispatch(event, context)
 
     except Exception as e:
         logger.info(e)
@@ -111,6 +115,6 @@ def lambda_handler(event, context):
         return {
             "statusCode": 500,
             "body": json.dumps(
-                {"message": "error: Unable to trigger health Checks"}
+                {"message": "error: Unable to trigger health checks"}
             )
         }

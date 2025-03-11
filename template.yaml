@@ -34,6 +34,10 @@ Resources:
                 - "logs:PutLogEvents"
               Effect: Allow
               Resource: "arn:aws:logs:*:*:*"
+            - Action:
+                - "SNS:Publish"
+              Effect: Allow
+              Resource: !Ref WhatsUpTopic
 
       Events:
         TriggerHealthCheck:
@@ -58,10 +62,6 @@ Resources:
               Effect: Allow
               Resource: "arn:aws:logs:*:*:*"
 
-            - Action:
-                - "SNS:Publish"
-              Effect: Allow
-              Resource: !Ref WhatsUpTopic
       Events:
         SNSTrigger:
           Type: SNS
