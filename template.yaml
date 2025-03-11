@@ -7,7 +7,7 @@ Description: >
 
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 10
     Runtime: python3.10
     Architectures:
       - x86_64
@@ -115,6 +115,9 @@ Resources:
       AttributeDefinitions:
         - AttributeName: id
           AttributeType: S
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
 
 Outputs:
   HealthCheckApi:

@@ -1,5 +1,7 @@
+
 test:
 	@sam --help > /dev/null
+
 hello:
 	@echo "Hello, World"
 
@@ -13,3 +15,7 @@ local:
 	$(MAKE) build
 
 	sam local start-api
+
+deploy:
+	$(MAKE) build
+	sam deploy
