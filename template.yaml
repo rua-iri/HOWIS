@@ -5,23 +5,24 @@ Description: >
 
   Sample SAM Template for whats_up_check
 
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
     Timeout: 3
+    Runtime: python3.10
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        SNS_TOPIC: !Ref WhatsUpTopic
+        DYNAMO_TABLE: !Ref WhatsUpTable
+    Handler: app.lambda_handler
+    
 
 Resources:
   TriggerHealthCheckFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: triggerhealthchecks/
-      Handler: app.lambda_handler
-      Runtime: python3.10
-      Architectures:
-        - x86_64
-      Environment:
-        Variables:
-          SNS_TOPIC: !Ref WhatsUpTopic
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref WhatsUpTable
@@ -36,10 +37,6 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: healthcheck/
-      Handler: app.lambda_handler
-      Runtime: python3.10
-      Architectures:
-        - x86_64
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref WhatsUpTable
@@ -59,6 +56,22 @@ Resources:
           Properties:
             Method: get
             Path: /health
+
+  HealthStatusFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: healthstatus/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref WhatsUpTable
+      Events:
+        HealthStatus:
+          Type: Api
+          Properties:
+            Method: get
+            Path: /status
+
+
 
   WhatsUpTopic:
     Type: AWS::SNS::Topic
