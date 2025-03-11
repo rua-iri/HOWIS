@@ -69,16 +69,6 @@ Resources:
             Topic:
               Ref: WhatsUpTopic
 
-        # TODO: remove this event
-        # In production we should not have a public
-        # API endpoint for this function
-        # It is only for testing purposes
-        HealthCheck:
-          Type: Api
-          Properties:
-            Method: get
-            Path: /health
-
   HealthStatusFunction:
     Type: AWS::Serverless::Function
     Properties:

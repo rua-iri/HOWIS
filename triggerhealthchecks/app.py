@@ -12,8 +12,6 @@ import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-# TODO: initialise SNS and DynamoDB clients here
-
 sns_client = boto3.client("sns")
 SNS_TOPIC = os.getenv("SNS_TOPIC")
 

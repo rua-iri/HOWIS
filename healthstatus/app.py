@@ -57,6 +57,8 @@ def dispatch(event, context):
     logger.info(event)
     logger.info(event.get("queryStringParameters"))
 
+    # TODO: validate CAPTCHA
+
     query_string: dict = event.get("queryStringParameters")
 
     if not query_string:
