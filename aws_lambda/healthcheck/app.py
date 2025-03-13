@@ -86,10 +86,16 @@ def dispatch(event, context):
 
     update_dynamo_item(item_id, count_success, count_fail)
 
-    return {"statusCode": 200, "body": json.dumps({
-        "count_success": count_success,
-        "count_fail": count_fail
-    })}
+    return {"statusCode": 200,
+            "headers": {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': '*'
+            },
+            "body": json.dumps({
+                "count_success": count_success,
+                "count_fail": count_fail
+            })}
 
 
 def lambda_handler(event, context):
@@ -101,6 +107,11 @@ def lambda_handler(event, context):
         logger.error(traceback.format_exc())
         return {
             "statusCode": 500,
+            "headers": {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': '*'
+            },
             "body": json.dumps(
                 {"error": "An error occurred"}
             )

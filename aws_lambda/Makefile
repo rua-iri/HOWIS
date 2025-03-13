@@ -1,6 +1,4 @@
 
-test:
-	@sam --help > /dev/null
 
 hello:
 	@echo "Hello, World"

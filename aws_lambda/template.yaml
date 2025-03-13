@@ -17,6 +17,11 @@ Globals:
         DYNAMO_TABLE: !Ref WhatsUpTable
     Handler: app.lambda_handler
     ReservedConcurrentExecutions: 2
+  
+  Api:
+    Cors:
+      AllowMethods: "'POST, GET'"
+      AllowOrigin: "'*'"
 
 Resources:
   TriggerHealthCheckFunction:

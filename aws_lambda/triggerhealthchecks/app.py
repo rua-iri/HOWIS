@@ -99,6 +99,11 @@ def dispatch(event, context):
 
     return {
         "statusCode": 200,
+        "headers": {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*'
+        },
         "body": json.dumps({
             "status": "success",
             "id": item_id
@@ -115,6 +120,11 @@ def lambda_handler(event, context):
         logger.info(traceback.format_exc())
         return {
             "statusCode": 500,
+            "headers": {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': '*'
+            },
             "body": json.dumps(
                 {"message": "error: Unable to trigger health checks"}
             )
