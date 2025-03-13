@@ -76,6 +76,11 @@ def dispatch(event, context):
     if not health_check_item:
         return {
             "statusCode": 404,
+            "headers": {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': '*'
+            },
             "body": json.dumps(
                 {"error": "No Records found"}
             )
@@ -89,6 +94,11 @@ def dispatch(event, context):
 
     return {
         "statusCode": 200,
+        "headers": {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*'
+        },
         "body": json.dumps(
             health_check_item
         )
@@ -104,6 +114,11 @@ def lambda_handler(event, context):
         logger.error(traceback.format_exc())
         return {
             "statusCode": 500,
+            "headers": {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': '*'
+            },
             "body": json.dumps(
                 {"error": "An error occurred"}
             )
