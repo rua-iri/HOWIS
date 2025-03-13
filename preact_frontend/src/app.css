@@ -5,9 +5,8 @@
   text-align: center;
 } */
 
-
-.main-container {
-  background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa');
-  background-image: url('https://images.unsplash.com/photo-1597733336794-12d05021d510');
+#app {
+  /* background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa'); */
+  background-image: url("/background1.webp");
   background-size: cover;
 }

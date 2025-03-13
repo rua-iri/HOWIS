@@ -31,6 +31,6 @@ function checkURLRegex(siteAddress) {
   const passesRegex = urlPattern.test(siteAddress);
 
   if (!passesRegex) {
-    throw new Error("URL does not pass regex test");
+    throw new Error("URL does not pass regex validation");
   }
 }

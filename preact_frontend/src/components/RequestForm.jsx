@@ -1,12 +1,13 @@
 import { useState } from "preact/hooks";
 import preactLogo from "../assets/preact.svg";
 import isUrlValid from "../utils/urlHelpers";
+import { sendSite } from "../utils/requestHelpers";
 
-export default function RequestForm() {
+export default function RequestForm({ setItemID }) {
   const [isFormError, setIsFormError] = useState(false);
   const [websiteAddress, setWebsiteAddress] = useState("");
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setIsFormError(false);
 
@@ -18,12 +19,16 @@ export default function RequestForm() {
       setIsFormError(true);
       return;
     }
+
+    const data = await sendSite(validUrlData.formattedAddress);
+
+    if (data.status == "success") {
+      data && setItemID(data.id);
+    }
   }
 
   return (
     <article className="small-blur">
-      {isFormError && "asdfasdf"}
-
       <h5>Request a Website</h5>
       <p>
         Check whether a given website is up right now by sending a request from
@@ -36,6 +41,7 @@ export default function RequestForm() {
             <div className="max">
               <nav className="no-space">
                 <div className="field border label max left-round">
+                  {isFormError && <span class="error">Invalid URL</span>}
                   <input
                     type="text"
                     name="siteAddress"
@@ -55,6 +61,7 @@ export default function RequestForm() {
               </nav>
             </div>
           </div>
+          <div className="space"></div>
         </fieldset>
       </form>
     </article>
