@@ -1,25 +1,13 @@
-#app {
+/* #app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
+} */
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.preact:hover {
-  filter: drop-shadow(0 0 2em #673ab8aa);
-}
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.main-container {
+  background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa');
+  background-image: url('https://images.unsplash.com/photo-1597733336794-12d05021d510');
+  background-size: cover;
 }
