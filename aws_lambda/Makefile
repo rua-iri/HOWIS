@@ -1,4 +1,4 @@
-
+include .env
 
 hello:
 	@echo "Hello, World"
@@ -17,3 +17,6 @@ local:
 deploy:
 	$(MAKE) build
 	sam deploy
+
+delete:
+	sam delete
