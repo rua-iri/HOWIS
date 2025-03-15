@@ -1,4 +1,5 @@
-const baseURL = "https://1tw25cqjw9.execute-api.me-south-1.amazonaws.com/Prod";
+const baseURL = import.meta.env.VITE_BASE_URL
+
 
 export async function sendSite(url) {
   const endpoint = `${baseURL}/up?site=${url}`;
