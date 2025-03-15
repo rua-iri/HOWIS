@@ -1,5 +1,5 @@
 import { useState } from "preact/hooks";
-import preactLogo from "../assets/preact.svg";
+import sendIcon from "/icons/send.svg";
 import isUrlValid from "../utils/urlHelpers";
 import { sendSite } from "../utils/requestHelpers";
 
@@ -68,7 +68,7 @@ export default function RequestForm({ setItemID, setUpStatus }) {
                   className="small-elevate large right-round"
                   disabled={!websiteAddress || isSubmitting}
                 >
-                  <img src={preactLogo} alt="" className="responsive" />
+                  <img src={sendIcon} alt="" className="responsive" />
                   <span>Send</span>
                 </button>
               </nav>
