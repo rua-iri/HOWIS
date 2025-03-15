@@ -5,6 +5,15 @@
   text-align: center;
 } */
 
+@font-face {
+  font-family: "YagiBold";
+  src: url(/fonts/DXSYagiBold.ttf);
+}
+
+.header-title {
+  font-family: YagiBold;
+}
+
 #app {
   /* background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa'); */
   background-image: url("/background1.webp");
