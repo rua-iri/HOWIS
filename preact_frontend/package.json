@@ -11,7 +11,8 @@
   "dependencies": {
     "beercss": "^3.9.7",
     "material-dynamic-colors": "^1.1.2",
-    "preact": "^10.26.2"
+    "preact": "^10.26.2",
+    "react-spinners": "^0.15.0"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.10.1",
