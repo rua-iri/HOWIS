@@ -3,27 +3,40 @@ import preactLogo from "../assets/preact.svg";
 import isUrlValid from "../utils/urlHelpers";
 import { sendSite } from "../utils/requestHelpers";
 
-export default function RequestForm({ setItemID }) {
+export default function RequestForm({ setItemID, setUpStatus }) {
   const [isFormError, setIsFormError] = useState(false);
   const [websiteAddress, setWebsiteAddress] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(event) {
-    event.preventDefault();
-    setIsFormError(false);
+    console.log(isSubmitting);
+    try {
+      event.preventDefault();
 
-    const validUrlData = isUrlValid(websiteAddress);
+      if (isSubmitting) return;
 
-    console.log(JSON.stringify(validUrlData));
+      setIsFormError(false);
+      setIsSubmitting(true);
+      setItemID();
+      setUpStatus();
 
-    if (!validUrlData.isValid) {
-      setIsFormError(true);
-      return;
-    }
+      const validUrlData = isUrlValid(websiteAddress);
 
-    const data = await sendSite(validUrlData.formattedAddress);
+      console.log(JSON.stringify(validUrlData));
 
-    if (data.status == "success") {
-      data && setItemID(data.id);
+      if (!validUrlData.isValid) {
+        setIsFormError(true);
+        return;
+      }
+
+      const data = await sendSite(validUrlData.formattedAddress);
+
+      if (data.status == "success") {
+        data && setItemID(data.id);
+      }
+      setIsSubmitting(false);
+    } catch (error) {
+      setIsSubmitting(false);
     }
   }
 
@@ -53,7 +66,7 @@ export default function RequestForm({ setItemID }) {
                 </div>
                 <button
                   className="small-elevate large right-round"
-                  disabled={!websiteAddress}
+                  disabled={!websiteAddress || isSubmitting}
                 >
                   <img src={preactLogo} alt="" className="responsive" />
                   <span>Send</span>

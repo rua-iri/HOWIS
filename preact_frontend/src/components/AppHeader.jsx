@@ -2,11 +2,7 @@ export default function AppHeader() {
   return (
     <header className="round container">
       <nav>
-        <a
-          href="https://rua-iri.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://rua-iri.com" target="_blank" rel="noopener noreferrer">
           <button className="circle transparent">
             <img
               src="https://rua-iri.com/apple-touch-icon.png"
@@ -15,7 +11,9 @@ export default function AppHeader() {
             />
           </button>
         </a>
-        <h3 className="max center-align header-title">What's Up Check</h3>
+        <h3 className="max center-align header-title">
+          <a href="/">What's Up Check</a>
+        </h3>
         <a
           href="https://github.com/rua-iri/whats_up_check"
           target="_blank"
