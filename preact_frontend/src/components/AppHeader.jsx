@@ -1,6 +1,6 @@
 export default function AppHeader() {
   return (
-    <header className="round white-container">
+    <header className="round container">
       <nav>
         <a
           href="https://rua-iri.com"
@@ -15,7 +15,7 @@ export default function AppHeader() {
             />
           </button>
         </a>
-        <h4 className="max center-align">What's Up Check</h4>
+        <h3 className="max center-align header-title">What's Up Check</h3>
         <a
           href="https://github.com/rua-iri/whats_up_check"
           target="_blank"

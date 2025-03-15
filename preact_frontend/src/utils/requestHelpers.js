@@ -13,15 +13,22 @@ export async function sendSite(url) {
 
 export async function getItemStatus(itemID) {
   const endpoint = `${baseURL}/status?id=${itemID}`;
+  const timeoutInterval = 1000;
+  const maxAttempts = 5;
+  let attemptCount = 0;
 
-  // make request after 0.5 seconds to ensure
-  // that the records in the db have been updated
-  setTimeout(() => {
-    fetch(endpoint, { method: "GET" })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        return data;
-      });
-  }, 500);
+  while (attemptCount < maxAttempts) {
+    const response = await fetch(endpoint, { method: "GET" });
+    const data = await response.json();
+    console.log(data);
+
+    if (data.request_count > 0) {
+      return data;
+    }
+
+    console.log(`Current Attempt Count: ${attemptCount}`);
+    attemptCount++;
+
+    await new Promise((resolve) => setTimeout(resolve, timeoutInterval));
+  }
 }
