@@ -1,4 +1,4 @@
-const baseURL = "https://pki9ud0ty9.execute-api.me-south-1.amazonaws.com/Prod";
+const baseURL = "https://1tw25cqjw9.execute-api.me-south-1.amazonaws.com/Prod";
 
 export async function sendSite(url) {
   const endpoint = `${baseURL}/up?site=${url}`;
@@ -13,16 +13,15 @@ export async function sendSite(url) {
 
 export async function getItemStatus(itemID) {
   const endpoint = `${baseURL}/status?id=${itemID}`;
-  console.log(endpoint)
 
+  // make request after 0.5 seconds to ensure
+  // that the records in the db have been updated
   setTimeout(() => {
-    
+    fetch(endpoint, { method: "GET" })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        return data;
+      });
   }, 500);
-
-  const response = await fetch(endpoint, { method: "GET" });
-  const data = await response.json();
-
-  console.log(data);
-
-  return data;
 }
