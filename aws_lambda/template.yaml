@@ -5,6 +5,11 @@ Description: >
 
   Sample SAM Template for whats_up_check
 
+Conditions:
+  IsInVirginia: !Equals
+    - us-east-1
+    - !Ref AWS::Region
+
 Globals:
   Function:
     Timeout: 10
@@ -25,6 +30,7 @@ Globals:
 Resources:
   TriggerHealthCheckFunction:
     Type: AWS::Serverless::Function
+    Condition: IsInVirginia
     Properties:
       CodeUri: triggerhealthchecks/
       Policies:
@@ -65,7 +71,6 @@ Resources:
                 - "logs:PutLogEvents"
               Effect: Allow
               Resource: "arn:aws:logs:*:*:*"
-
       Events:
         SNSTrigger:
           Type: SNS
@@ -75,6 +80,7 @@ Resources:
 
   HealthStatusFunction:
     Type: AWS::Serverless::Function
+    Condition: IsInVirginia
     Properties:
       CodeUri: healthstatus/
       Policies:
@@ -88,7 +94,6 @@ Resources:
                 - "logs:PutLogEvents"
               Effect: Allow
               Resource: "arn:aws:logs:*:*:*"
-
       Events:
         HealthStatus:
           Type: Api
@@ -98,9 +103,11 @@ Resources:
 
   WhatsUpTopic:
     Type: AWS::SNS::Topic
+    Condition: IsInVirginia
 
   WhatsUpTable:
     Type: AWS::DynamoDB::Table
+    Condition: IsInVirginia
     Properties:
       TableName: WhatsUpTable
       KeySchema:
@@ -123,3 +130,6 @@ Outputs:
   HealthCheckFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
     Value: !GetAtt HealthCheckFunctionRole.Arn
+  StacksRegion:
+    Description: "The AWS region in which the stack has been deployed"
+    Value: !Ref AWS::Region
