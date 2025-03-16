@@ -14,7 +14,7 @@ export async function sendSite(url) {
 
 export async function getItemStatus(itemID) {
   const endpoint = `${baseURL}/status?id=${itemID}`;
-  const timeoutInterval = 1000;
+  const timeoutInterval = import.meta.env.VITE_REQUEST_TIMEOUT;
   const maxAttempts = 5;
   let attemptCount = 0;
 
