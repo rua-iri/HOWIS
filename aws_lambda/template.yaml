@@ -5,11 +5,6 @@ Description: >
 
   Sample SAM Template for whats_up_check
 
-Conditions:
-  IsInVirginia: !Equals
-    - us-east-1
-    - !Ref AWS::Region
-
 Globals:
   Function:
     Timeout: 10
@@ -30,7 +25,6 @@ Globals:
 Resources:
   TriggerHealthCheckFunction:
     Type: AWS::Serverless::Function
-    Condition: IsInVirginia
     Properties:
       CodeUri: triggerhealthchecks/
       Policies:
@@ -80,7 +74,6 @@ Resources:
 
   HealthStatusFunction:
     Type: AWS::Serverless::Function
-    Condition: IsInVirginia
     Properties:
       CodeUri: healthstatus/
       Policies:
@@ -103,11 +96,9 @@ Resources:
 
   WhatsUpTopic:
     Type: AWS::SNS::Topic
-    Condition: IsInVirginia
 
   WhatsUpTable:
     Type: AWS::DynamoDB::Table
-    Condition: IsInVirginia
     Properties:
       TableName: WhatsUpTable
       KeySchema:
@@ -133,3 +124,9 @@ Outputs:
   StacksRegion:
     Description: "The AWS region in which the stack has been deployed"
     Value: !Ref AWS::Region
+
+  WhatsUpTopic:
+    Description: "SNS topic to which health check functions are subscribed"
+    Value: !Ref WhatsUpTopic
+    Export:
+      Name: WhatsUpTopic
