@@ -50,6 +50,72 @@ Resources:
             Method: post
             Path: /up
 
+  HealthCheckFunction1:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: healthcheck/2/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref WhatsUpTable
+        - Version: "2012-10-17"
+          Statement:
+            - Action:
+                - "logs:CreateLogGroup"
+                - "logs:CreateLogStream"
+                - "logs:PutLogEvents"
+              Effect: Allow
+              Resource: "arn:aws:logs:*:*:*"
+      Events:
+        SNSTrigger:
+          Type: SNS
+          Properties:
+            Topic:
+              Ref: WhatsUpTopic
+
+  HealthCheckFunction2:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: healthcheck/2/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref WhatsUpTable
+        - Version: "2012-10-17"
+          Statement:
+            - Action:
+                - "logs:CreateLogGroup"
+                - "logs:CreateLogStream"
+                - "logs:PutLogEvents"
+              Effect: Allow
+              Resource: "arn:aws:logs:*:*:*"
+      Events:
+        SNSTrigger:
+          Type: SNS
+          Properties:
+            Topic:
+              Ref: WhatsUpTopic
+
+  HealthCheckFunction3:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: healthcheck/3/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref WhatsUpTable
+        - Version: "2012-10-17"
+          Statement:
+            - Action:
+                - "logs:CreateLogGroup"
+                - "logs:CreateLogStream"
+                - "logs:PutLogEvents"
+              Effect: Allow
+              Resource: "arn:aws:logs:*:*:*"
+      Events:
+        SNSTrigger:
+          Type: SNS
+          Properties:
+            Topic:
+              Ref: WhatsUpTopic
+
   HealthStatusFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -96,15 +162,3 @@ Outputs:
   StacksRegion:
     Description: "The AWS region in which the stack has been deployed"
     Value: !Ref AWS::Region
-
-  WhatsUpTopic:
-    Description: "SNS topic to which health check functions are subscribed"
-    Value: !Ref WhatsUpTopic
-    Export:
-      Name: WhatsUpTopic
-
-  WhatsUpTable:
-    Description: "The DynamoDB table which stores the data about requests to websites"
-    Value: !Ref WhatsUpTable
-    Export:
-      Name: WhatsUpTable
