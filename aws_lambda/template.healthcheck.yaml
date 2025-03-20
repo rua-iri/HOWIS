@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  whats_up_check
+
+  Sample SAM Template for whats_up_check
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: python3.10
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        SNS_TOPIC: !ImportValue WhatsUpTopic
+        DYNAMO_TABLE: !ImportValue WhatsUpTopic
+    Handler: app.lambda_handler
+    ReservedConcurrentExecutions: 2
+  Api:
+    Cors:
+      AllowMethods: "'POST, GET'"
+      AllowOrigin: "'*'"
+
+Resources:
+  HealthCheckFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: healthcheck/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !ImportValue WhatsUpTable
+        - Version: "2012-10-17"
+          Statement:
+            - Action:
+                - "logs:CreateLogGroup"
+                - "logs:CreateLogStream"
+                - "logs:PutLogEvents"
+              Effect: Allow
+              Resource: "arn:aws:logs:*:*:*"
+      Events:
+        SNSTrigger:
+          Type: SNS
+          Properties:
+            Topic:
+              Ref: !ImportValue WhatsUpTopic
+
+Outputs:
+  HealthCheckFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt HealthCheckFunction.Arn
+  HealthCheckFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HealthCheckFunctionRole.Arn

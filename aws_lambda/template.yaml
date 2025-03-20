@@ -50,28 +50,6 @@ Resources:
             Method: post
             Path: /up
 
-  HealthCheckFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: healthcheck/
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref WhatsUpTable
-        - Version: "2012-10-17"
-          Statement:
-            - Action:
-                - "logs:CreateLogGroup"
-                - "logs:CreateLogStream"
-                - "logs:PutLogEvents"
-              Effect: Allow
-              Resource: "arn:aws:logs:*:*:*"
-      Events:
-        SNSTrigger:
-          Type: SNS
-          Properties:
-            Topic:
-              Ref: WhatsUpTopic
-
   HealthStatusFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -113,14 +91,8 @@ Resources:
 
 Outputs:
   HealthCheckApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Description: "API Gateway endpoint URL for Prod stage for TriggerHealthCheck function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/health/"
-  HealthCheckFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HealthCheckFunction.Arn
-  HealthCheckFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HealthCheckFunctionRole.Arn
   StacksRegion:
     Description: "The AWS region in which the stack has been deployed"
     Value: !Ref AWS::Region
@@ -130,3 +102,9 @@ Outputs:
     Value: !Ref WhatsUpTopic
     Export:
       Name: WhatsUpTopic
+
+  WhatsUpTable:
+    Description: "The DynamoDB table which stores the data about requests to websites"
+    Value: !Ref WhatsUpTable
+    Export:
+      Name: WhatsUpTable
