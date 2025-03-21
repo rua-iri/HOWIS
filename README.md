@@ -1,6 +1,6 @@
 # whats_up_check
 
-Fullstack project to check a website's status from a number of global regions.
+Fullstack project to check a website's status from a number of different lambda functions.
 
 ## Demo
 
