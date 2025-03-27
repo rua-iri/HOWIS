@@ -53,7 +53,7 @@ Resources:
   HealthCheckFunction1:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: healthcheck/2/
+      CodeUri: healthcheck/
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref WhatsUpTable
@@ -75,7 +75,7 @@ Resources:
   HealthCheckFunction2:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: healthcheck/2/
+      CodeUri: healthcheck/
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref WhatsUpTable
@@ -97,7 +97,7 @@ Resources:
   HealthCheckFunction3:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: healthcheck/3/
+      CodeUri: healthcheck/
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref WhatsUpTable
