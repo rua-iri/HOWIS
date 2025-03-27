@@ -49,7 +49,7 @@ export default function RequestForm({ setItemID, setUpStatus }) {
       <h5>Request a Website</h5>
       <p>
         Check whether a given website is up right now by sending a request from
-        multiple different global regions
+        multiple different clients
       </p>
       <form onSubmit={(event) => handleSubmit(event)}>
         <fieldset>
