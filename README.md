@@ -2,10 +2,9 @@
 
 Fullstack project to check a website's status from a number of different lambda functions.
 
-
 ## Demo
 
-[You can try out the Project here](https://whats-up-check.vercel.app/)
+[You can try out the Project here](https://whats-up-check.rua-iri.com/)
 
 ## Design
 
@@ -16,8 +15,8 @@ Each health check lambda function will send a HEAD request to a given domain and
 The frontend is using Preact + Vite, deployed using Vercel.
 
 ## Lighthouse Report
-![image](https://github.com/user-attachments/assets/98c7d60a-dd53-4f18-8bd8-e09a5bc8a529)
 
+![image](https://github.com/user-attachments/assets/98c7d60a-dd53-4f18-8bd8-e09a5bc8a529)
 
 ## Infrastructure Diagram
 
@@ -29,7 +28,7 @@ The frontend is using Preact + Vite, deployed using Vercel.
 
 `GET /status?id=<item_id>`
 
-> **_NOTE:_** The third lambda function is triggered by AWS SNS, and does not have a publically accessible API endpoint
+> **_NOTE:_** The third lambda function is triggered by AWS SNS, and does not have a publicly accessible API endpoint
 
 ## Setup
 
@@ -39,10 +38,22 @@ Ensure that you have a SAM CLI installed by running
 sam --version
 ```
 
-Then clone the repository and run the deployment script
+Then clone the repository and deploy the backend
 
 ```bash
 git clone https://github.com/rua-iri/whats_up_check
 
-./deploy.sh
+cd aws_lambda
+
+make deploy
+```
+
+Then run the frontend locally
+
+```bash
+cd preact_frontend
+
+npm install
+
+npm run dev
 ```
