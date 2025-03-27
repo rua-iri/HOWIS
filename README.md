@@ -2,6 +2,7 @@
 
 Fullstack project to check a website's status from a number of different lambda functions.
 
+
 ## Demo
 
 [You can try out the Project here](https://whats-up-check.vercel.app/)
@@ -13,6 +14,10 @@ The backend is built using AWS SAM, utilising various AWS services, which can be
 Each health check lambda function will send a HEAD request to a given domain and store the results of these requests in a DynamoDB table.
 
 The frontend is using Preact + Vite, deployed using Vercel.
+
+## Lighthouse Report
+![image](https://github.com/user-attachments/assets/98c7d60a-dd53-4f18-8bd8-e09a5bc8a529)
+
 
 ## Infrastructure Diagram
 
