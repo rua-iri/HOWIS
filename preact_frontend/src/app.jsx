@@ -30,7 +30,9 @@ export function App() {
         <AppHeader />
         <div className="medium-space"></div>
         <div className="container">
-          {!itemID && <RequestForm setItemID={setItemID} setUpStatus={setUpStatus} />}
+          {!itemID && (
+            <RequestForm setItemID={setItemID} setUpStatus={setUpStatus} />
+          )}
         </div>
         <div className="medium-space"></div>
         <div className="container">
