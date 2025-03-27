@@ -5,6 +5,7 @@ import { sendSite } from "../utils/requestHelpers";
 
 export default function RequestForm({ setItemID, setUpStatus }) {
   const [isFormError, setIsFormError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [websiteAddress, setWebsiteAddress] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -26,6 +27,7 @@ export default function RequestForm({ setItemID, setUpStatus }) {
 
       if (!validUrlData.isValid) {
         setIsFormError(true);
+        setErrorMessage("Invalid URL");
         return;
       }
 
@@ -34,14 +36,16 @@ export default function RequestForm({ setItemID, setUpStatus }) {
       if (data.status == "success") {
         data && setItemID(data.id);
       }
-      setIsSubmitting(false);
     } catch (error) {
+      setErrorMessage("Something Went Wrong Submitting the Form");
+      setIsFormError(true);
+    } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <article className="small-blur">
+    <article className="blur">
       <h5>Request a Website</h5>
       <p>
         Check whether a given website is up right now by sending a request from
@@ -54,7 +58,9 @@ export default function RequestForm({ setItemID, setUpStatus }) {
             <div className="max">
               <nav className="no-space">
                 <div className="field border label max left-round">
-                  {isFormError && <span class="error">Invalid URL</span>}
+                  {isFormError && (
+                    <span class="error">Error: {errorMessage}</span>
+                  )}
                   <input
                     type="text"
                     name="siteAddress"
