@@ -45,6 +45,15 @@ def put_dynamo_item(site: str) -> str:
         },
         "request_count": {
             "N": "0"
+        },
+        "ok_count": {
+            "N": "0"
+        },
+        "client_error_count": {
+            "N": "0"
+        },
+        "server_error_count": {
+            "N": "0"
         }
     }
 

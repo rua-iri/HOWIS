@@ -40,7 +40,11 @@ def get_dynamo_record(req_id: str):
     projection_expression = """site_url,
         success_count,
         fail_count,
-        request_count"""
+        request_count,
+        ok_count,
+        client_error_count,
+        server_error_count
+        """
 
     item: dict = dynamo_client.get_item(
         Key=item_key,

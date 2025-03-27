@@ -4,6 +4,7 @@ import traceback
 import boto3
 import requests
 from site_url import SiteURL
+from site_status import Site_Status
 
 import logging
 
@@ -16,8 +17,7 @@ DYNAMO_TABLE = os.getenv("DYNAMO_TABLE")
 
 def update_dynamo_item(
         item_id: str,
-        success_count: int,
-        fail_count: int
+        site_status: Site_Status
 ):
 
     key = {
@@ -27,10 +27,19 @@ def update_dynamo_item(
     }
     expression_values = {
         ":sc": {
-            "N": str(success_count)
+            "N": str(site_status.count_success)
         },
         ":fc": {
-            "N": str(fail_count)
+            "N": str(site_status.count_fail)
+        },
+        ":okc": {
+            "N": str(site_status.count_ok)
+        },
+        ":cec": {
+            "N": str(site_status.count_client_error)
+        },
+        ":sec": {
+            "N": str(site_status.count_server_error)
         },
         ":incre": {
             "N": "1"
@@ -39,6 +48,9 @@ def update_dynamo_item(
 
     update_expression = """SET success_count = success_count + :sc,
     fail_count = fail_count + :fc,
+    ok_count = ok_count + :okc,
+    client_error_count = client_error_count + :cec,
+    server_error_count = server_error_count + :sec,
     request_count = request_count + :incre
     """
 
@@ -50,19 +62,20 @@ def update_dynamo_item(
     )
 
 
-def check_site_status(site: SiteURL) -> tuple:
-    count_success = 0
-    count_fail = 0
+def check_site_status(site: SiteURL) -> Site_Status:
+    site_status = Site_Status()
 
     for i in range(3):
         logger.info(f"Ping: {i}")
         try:
-            requests.head(site.get_https())
-            count_success += 1
-        except requests.ConnectionError:
-            count_fail += 1
+            response = requests.head(site.get_https())
+            site_status.update_count_success()
+            site_status.evaluate_response(response)
 
-    return count_success, count_fail
+        except requests.ConnectionError:
+            site_status.update_count_fail()
+
+    return site_status
 
 
 def dispatch(event, context):
@@ -79,12 +92,19 @@ def dispatch(event, context):
 
     site: SiteURL = SiteURL(site)
     logger.info(f"Site: {site.get_https()}")
-    count_success, count_fail = check_site_status(site)
 
-    logger.info(f"Success Count: {count_success}")
-    logger.info(f"Fail Count: {count_fail}")
+    site_status = check_site_status(site)
 
-    update_dynamo_item(item_id, count_success, count_fail)
+    logger.info(f"Success Count: {site_status.count_success}")
+    logger.info(f"Fail Count: {site_status.count_fail}")
+    logger.info(f"OK Count: {site_status.count_ok}")
+    logger.info(f"Client Error Count: {site_status.count_client_error}")
+    logger.info(f"Server Error Count: {site_status.count_server_error}")
+
+    update_dynamo_item(
+        item_id,
+        site_status
+    )
 
     return {"statusCode": 200,
             "headers": {
@@ -93,8 +113,8 @@ def dispatch(event, context):
                 'Access-Control-Allow-Headers': '*'
             },
             "body": json.dumps({
-                "count_success": count_success,
-                "count_fail": count_fail
+                "count_success": site_status.count_success,
+                "count_fail": site_status.count_fail
             })}
 
 
