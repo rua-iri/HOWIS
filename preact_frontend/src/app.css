@@ -8,6 +8,7 @@
 @font-face {
   font-family: "YagiBold";
   src: url(/fonts/DXSYagiBold.ttf);
+  font-display: swap;
 }
 
 .header-title {
@@ -29,7 +30,6 @@
   height: 100%;
   opacity: 1;
   z-index: -1;
-  /* background-image: url("/background1.webp"); */
   background-image: url("/background_resized.webp");
   background-size: cover;
   filter: blur(7.5px);

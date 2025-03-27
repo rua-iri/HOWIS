@@ -2,30 +2,36 @@ export default function AppHeader() {
   return (
     <header className="round container">
       <nav>
-        <a href="https://rua-iri.com" target="_blank" rel="noopener noreferrer">
-          <button className="circle transparent">
-            <img
-              src="https://rua-iri.com/apple-touch-icon.png"
-              alt=""
-              className="responsive"
-            />
-          </button>
+        <a
+          href="https://rua-iri.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="circle transparent"
+        >
+          <img
+            width={40}
+            height={40}
+            src="/icons/rua-iri.webp"
+            alt="rua-iri logo"
+            className="responsive"
+          />
         </a>
-        <h3 className="max center-align header-title">
-          <a href="/">What's Up Check</a>
-        </h3>
+        <a href="/" className="max center-align header-title">
+          <h3>What's Up Check</h3>
+        </a>
         <a
           href="https://github.com/rua-iri/whats_up_check"
           target="_blank"
           rel="noopener noreferrer"
+          className="circle transparent"
         >
-          <button className="circle transparent">
-            <img
-              src="https://github.com/favicon.ico"
-              alt=""
-              className="responsive"
-            />
-          </button>
+          <img
+            width={40}
+            height={40}
+            src="https://github.com/favicon.ico"
+            alt="GitHub Logo"
+            className="responsive"
+          />
         </a>
       </nav>
     </header>

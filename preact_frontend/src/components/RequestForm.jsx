@@ -1,4 +1,4 @@
-import { useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import sendIcon from "/icons/send.svg";
 import isUrlValid from "../utils/urlHelpers";
 import { sendSite } from "../utils/requestHelpers";
@@ -8,6 +8,8 @@ export default function RequestForm({ setItemID, setUpStatus }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [websiteAddress, setWebsiteAddress] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const textInputRef = useRef();
 
   async function handleSubmit(event) {
     console.log(isSubmitting);
@@ -44,9 +46,13 @@ export default function RequestForm({ setItemID, setUpStatus }) {
     }
   }
 
+  useEffect(() => {
+    textInputRef.current.focus();
+  }, []);
+
   return (
     <article className="blur">
-      <h5>Request a Website</h5>
+      <h3>Request a Website</h3>
       <p>
         Check whether a given website is up right now by sending a request from
         multiple different clients
@@ -65,6 +71,7 @@ export default function RequestForm({ setItemID, setUpStatus }) {
                     type="text"
                     name="siteAddress"
                     id="siteAddress"
+                    ref={textInputRef}
                     value={websiteAddress}
                     onChange={(e) => setWebsiteAddress(e.target.value)}
                   />
@@ -74,7 +81,13 @@ export default function RequestForm({ setItemID, setUpStatus }) {
                   className="small-elevate large right-round"
                   disabled={!websiteAddress || isSubmitting}
                 >
-                  <img src={sendIcon} alt="" className="responsive" />
+                  <img
+                    width={48}
+                    height={48}
+                    src={sendIcon}
+                    alt="Send Icon"
+                    className="responsive"
+                  />
                   <span>Send</span>
                 </button>
               </nav>
