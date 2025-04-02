@@ -55,5 +55,9 @@ cd preact_frontend
 
 npm install
 
+cp .example.env .env
+
 npm run dev
 ```
+
+> **_NOTE:_** You should populate the environment file with your own API's base url
