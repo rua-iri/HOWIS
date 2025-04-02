@@ -22,7 +22,9 @@ export default function UpStatusContainer({ upStatus }) {
 
     let statusMessage;
 
-    if (maxCount === ok_count) {
+    if (maxCount == 0) {
+      statusMessage = "the site may not exist or the URL may be incorrect";
+    } else if (maxCount === ok_count) {
       statusMessage = "the site is performing fine";
     } else if (maxCount === client_error_count) {
       statusMessage = "there may be an error in your request to the site";
