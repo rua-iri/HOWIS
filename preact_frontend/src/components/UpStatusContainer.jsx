@@ -14,7 +14,7 @@ export default function UpStatusContainer({ upStatus }) {
 
   const totalRequests = upStatus?.success_count + upStatus?.fail_count;
   const upPercentage = (upStatus?.success_count / totalRequests) * 100;
-  const isSiteUp = upPercentage > 50;
+  let isSiteUp = upPercentage > 50;
 
   if (upStatus?.request_count) {
     const { ok_count, client_error_count, server_error_count } = upStatus;
@@ -28,8 +28,10 @@ export default function UpStatusContainer({ upStatus }) {
       statusMessage = "the site is performing fine";
     } else if (maxCount === client_error_count) {
       statusMessage = "there may be an error in your request to the site";
+      isSiteUp = false;
     } else {
       statusMessage = "there is something wrong with the server";
+      isSiteUp = false;
     }
 
     return (
@@ -47,7 +49,7 @@ export default function UpStatusContainer({ upStatus }) {
                 {upStatus?.site_url}
               </a>
             </code>{" "}
-            were successful
+            reached the site
           </p>
           <div className="space"></div>
           <img
