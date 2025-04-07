@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  whats_up_check
+  HOWIS
 
-  Sample SAM Template for whats_up_check
+  Sample SAM Template for HOWIS
 
 Globals:
   Function:

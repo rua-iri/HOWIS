@@ -17,10 +17,10 @@ export default function AppHeader() {
           />
         </a>
         <a href="/" className="max center-align header-title">
-          <h3>What's Up Check</h3>
+          <h3>HOWIS</h3>
         </a>
         <a
-          href="https://github.com/rua-iri/whats_up_check"
+          href="https://github.com/rua-iri/HOWIS"
           target="_blank"
           rel="noopener noreferrer"
           className="circle transparent"

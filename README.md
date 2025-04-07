@@ -1,6 +1,10 @@
-# whats_up_check
+# HOWIS
 
 Fullstack project to check a website's status from a number of different lambda functions.
+
+<sub>
+(Yes, it's a play on the misspelling of WHOIS)
+</sub>
 
 ## Demo
 
@@ -20,7 +24,7 @@ The frontend is using Preact + Vite, deployed using Vercel.
 
 ## Infrastructure Diagram
 
-![whats_up_check Diagram(3)](https://github.com/user-attachments/assets/ee0b60ea-f8e3-43fe-9075-d078e13e65f5)
+![HOWIS Infra Diagram(3)](https://github.com/user-attachments/assets/ee0b60ea-f8e3-43fe-9075-d078e13e65f5)
 
 ## API Endpoints
 
@@ -41,7 +45,7 @@ sam --version
 Then clone the repository and deploy the backend
 
 ```bash
-git clone https://github.com/rua-iri/whats_up_check
+git clone https://github.com/rua-iri/HOWIS
 
 cd aws_lambda
 
