@@ -21,6 +21,7 @@ export default function UpStatusContainer({ upStatus }) {
     const maxCount = Math.max(ok_count, client_error_count, server_error_count);
 
     let statusMessage;
+    let statusDocumentation;
 
     if (maxCount == 0) {
       statusMessage = "the site may not exist or the URL may be incorrect";
@@ -28,9 +29,13 @@ export default function UpStatusContainer({ upStatus }) {
       statusMessage = "the site is performing fine";
     } else if (maxCount === client_error_count) {
       statusMessage = "there may be an error in your request to the site";
+      statusDocumentation =
+        "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status#client_error_responses";
       isSiteUp = false;
     } else {
       statusMessage = "there is something wrong with the server";
+      statusDocumentation =
+        "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status#server_error_responses";
       isSiteUp = false;
     }
 
@@ -60,6 +65,14 @@ export default function UpStatusContainer({ upStatus }) {
         </div>
         <div className="space"></div>
         <p className="center-align">Our tests indicate that {statusMessage}</p>
+        <div className="space"></div>
+        {statusDocumentation && (
+          <a href={statusDocumentation}>
+            <p className="center-align">
+              You may find some helpful information here.
+            </p>
+          </a>
+        )}
         <div className="space"></div>
       </article>
     );
