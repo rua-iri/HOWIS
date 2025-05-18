@@ -8,7 +8,7 @@ Fullstack project to check a website's status from a number of different lambda 
 
 ## Demo
 
-[You can try out the Project here](https://whats-up-check.rua-iri.com/)
+[You can try out the Project here](https://howis.rua-iri.com/)
 
 ## Design
 
