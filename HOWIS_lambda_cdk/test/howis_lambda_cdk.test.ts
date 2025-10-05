@@ -1,13 +1,13 @@
 // import * as cdk from 'aws-cdk-lib';
 // import { Template } from 'aws-cdk-lib/assertions';
-// import * as AwsLambdaCdk from '../lib/aws_lambda_cdk-stack';
+// import * as HowisLambdaCdk from '../lib/howis_lambda_cdk-stack';
 
 // example test. To run these tests, uncomment this file along with the
-// example resource in lib/aws_lambda_cdk-stack.ts
+// example resource in lib/howis_lambda_cdk-stack.ts
 test('SQS Queue Created', () => {
 //   const app = new cdk.App();
 //     // WHEN
-//   const stack = new AwsLambdaCdk.AwsLambdaCdkStack(app, 'MyTestStack');
+//   const stack = new HowisLambdaCdk.HowisLambdaCdkStack(app, 'MyTestStack');
 //     // THEN
 //   const template = Template.fromStack(stack);
 

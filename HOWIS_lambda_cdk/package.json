@@ -1,8 +1,8 @@
 {
-  "name": "aws_lambda_cdk",
+  "name": "howis_lambda_cdk",
   "version": "0.1.0",
   "bin": {
-    "aws_lambda_cdk": "bin/aws_lambda_cdk.js"
+    "howis_lambda_cdk": "bin/howis_lambda_cdk.js"
   },
   "scripts": {
     "build": "tsc",
