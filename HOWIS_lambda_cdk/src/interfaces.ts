@@ -4,7 +4,9 @@ interface lambdaEvent {
   path: string;
   httpMethod: string;
   isBase64Encoded: boolean;
-  queryStringParameters: object;
+  queryStringParameters: {
+    site?: string;
+  };
   pathParameters: object;
   stageVariables: object;
   headers: object;
@@ -41,4 +43,4 @@ interface lambdaResponse {
   statusCode: number;
 }
 
-export { lambdaEvent, lambdaResponse};
+export { lambdaEvent, lambdaResponse };
